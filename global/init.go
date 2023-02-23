@@ -1,9 +1,19 @@
 package global
 
+import (
+	"elotus/config"
+	"elotus/package/logger"
+	"go.uber.org/zap"
+)
+
+var (
+	Logger *zap.Logger
+)
+
 func Init() {
-	initLogger()
+	Logger = logger.NewLogger(config.LogLevel)
 }
 
 func DeInit() {
-	deInitLogger()
+	logger.Close(Logger)
 }

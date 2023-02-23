@@ -1,16 +1,13 @@
-package global
+package logger
 
 import (
-	"elotus/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-var Logger *zap.Logger
-
-func initLogger() {
+func NewLogger(logLevel int64) *zap.Logger {
 	cfg := zap.Config{
-		Level:            zap.NewAtomicLevelAt(zapcore.Level(config.LogLevel)),
+		Level:            zap.NewAtomicLevelAt(zapcore.Level(logLevel)),
 		Encoding:         "json",
 		OutputPaths:      []string{"stdout"},
 		ErrorOutputPaths: []string{"stderr"},
@@ -19,9 +16,9 @@ func initLogger() {
 			LevelKey:   "level",
 		},
 	}
-	Logger = zap.Must(cfg.Build())
+	return zap.Must(cfg.Build())
 }
 
-func deInitLogger() {
-	Logger.Sync()
+func Close(logger *zap.Logger) {
+	logger.Sync()
 }

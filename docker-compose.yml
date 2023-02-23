@@ -18,7 +18,7 @@ services:
     environment:
       - REDIS_PASSWORD=elotus
   app:
-    container_name: elotus-server
+    container_name: elotus-v1
     image: golang:1.20-alpine
     ports:
       - "${SERVER_PORT}:80"
