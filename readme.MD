@@ -27,7 +27,7 @@ DB_PORT = 5432
 docker-compose --env-file ./.env up 
 ```
 - after each time you run, to make sure that no issue will appear in the next time, please run `docker-compose --env-file ./.env down` to clean all related containers.
-- application ready after this line of log `{"message":"start application","environment":"development"}`
+
 ### test application
 - access `http://127.0.0.1:{PORT}/swagger/index.htl` to access swagger documentation.
 - all endpoints are already to test with swagger. see detail at `https://swagger.io/docs/`
