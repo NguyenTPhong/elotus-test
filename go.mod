@@ -3,8 +3,8 @@ module elotus
 go 1.20
 
 require (
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/gofiber/fiber/v2 v2.42.0
-	github.com/jinzhu/gorm v1.9.16
 	github.com/joho/godotenv v1.5.1
 	go.uber.org/zap v1.24.0
 	gorm.io/driver/postgres v1.4.8
@@ -23,6 +23,8 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
+	github.com/onsi/ginkgo v1.16.5 // indirect
+	github.com/onsi/gomega v1.27.1 // indirect
 	github.com/philhofer/fwd v1.1.1 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/savsgio/dictpool v0.0.0-20221023140959-7bf2e61cea94 // indirect

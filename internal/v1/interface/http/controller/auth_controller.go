@@ -6,10 +6,10 @@ import (
 )
 
 type AuthController struct {
-	userUseCase usecase.UserUseCase
+	userUseCase usecase.AuthUseCase
 }
 
-func NewAuthController(userUseCase usecase.UserUseCase) *AuthController {
+func NewAuthController(userUseCase usecase.AuthUseCase) *AuthController {
 	return &AuthController{userUseCase}
 }
 

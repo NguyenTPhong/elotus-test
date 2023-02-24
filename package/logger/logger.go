@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"context"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -21,4 +22,8 @@ func NewLogger(logLevel int64) *zap.Logger {
 
 func Close(logger *zap.Logger) {
 	logger.Sync()
+}
+
+func TraceID(ctx context.Context) zap.Field {
+	return zap.Any("trace_id", ctx.Value("requestid"))
 }

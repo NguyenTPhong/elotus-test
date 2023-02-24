@@ -4,13 +4,16 @@ import (
 	"elotus/internal/v1/interface/http/controller"
 	"elotus/internal/v1/repository"
 	"elotus/internal/v1/usecase"
+
+	"github.com/go-redis/redis"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
 type Handler struct {
-	fiberApp *fiber.App
-	db       *gorm.DB
+	fiberApp    *fiber.App
+	db          *gorm.DB
+	redisClient *redis.Client
 
 	// controller
 	authController *controller.AuthController
@@ -38,12 +41,19 @@ func WithDatabase(db *gorm.DB) HandlerOption {
 	}
 }
 
+func WithRedisClient(redisClient *redis.Client) HandlerOption {
+	return func(handler *Handler) {
+		handler.redisClient = redisClient
+	}
+}
+
 func (h *Handler) CreateController() *Handler {
 	// init repositories
-	userRepository := repository.NewUserRepository(h.db)
+	authRepo := repository.NewAuthRepository(h.db)
+	authCacheRepo := repository.NewAuthCacheRepository(h.redisClient)
 
 	// init use case
-	userUseCase := usecase.NewUserUseCase(userRepository)
+	userUseCase := usecase.NewUserUseCase(authRepo, authCacheRepo)
 
 	// init child controller here
 	h.authController = controller.NewAuthController(userUseCase)

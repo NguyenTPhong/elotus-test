@@ -11,8 +11,7 @@ var (
 	JWTKey        = GetString("JWT_KEY", "development-key")
 	TokenLifeTime = GetInt64("TOKEN_LIFE_TIME", 2)        // jwt token life time
 	StoragePath   = GetString("STORAGE_PATH", "/upload")  // upload path
-	RedisHost     = GetString("REDIS_HOST", "redis")      // redis host
-	RedisPort     = GetString("REDIS_PORT", "6379")       // redis host
+	RedisHost     = GetString("REDIS_HOST", "redis:6379") // redis host, include port
 	RedisPassword = GetString("REDIS_PASSWORD", "elotus") // redis pw
 	LogLevel      = GetInt64("LOG_LEVEL", -1)
 )
