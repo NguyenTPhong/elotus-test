@@ -1,7 +1,8 @@
 package http
 
 import (
-	"elotus/internal/v1/interface/http/controller"
+	"elotus/internal/v1/delivery/http/controller"
+	"elotus/internal/v1/delivery/http/middleware"
 	"elotus/internal/v1/repository"
 	"elotus/internal/v1/usecase"
 
@@ -16,7 +17,11 @@ type Handler struct {
 	redisClient *redis.Client
 
 	// controller
-	authController *controller.AuthController
+	authController   *controller.AuthController
+	uploadController *controller.UploadController
+
+	//middle ware
+	authMiddleware *middleware.AuthMiddleware
 }
 
 type HandlerOption func(*Handler)
@@ -51,13 +56,18 @@ func (h *Handler) CreateController() *Handler {
 	// init repositories
 	authRepo := repository.NewAuthRepository(h.db)
 	authCacheRepo := repository.NewAuthCacheRepository(h.redisClient)
+	uploadRepo := repository.NewUploadFileRepository(h.db)
 
 	// init use case
 	userUseCase := usecase.NewUserUseCase(authRepo, authCacheRepo)
+	uploadUseCase := usecase.NewUploadUseCase(uploadRepo)
 
 	// init child controller here
 	h.authController = controller.NewAuthController(userUseCase)
+	h.uploadController = controller.NewUploadController(uploadUseCase)
 
+	// middle ware
+	h.authMiddleware = middleware.NewAuthMiddleware(userUseCase)
 	return h
 }
 

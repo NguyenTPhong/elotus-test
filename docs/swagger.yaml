@@ -1,0 +1,147 @@
+definitions:
+  entity.CreateUserRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  entity.CreateUserResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      username:
+        type: string
+    type: object
+  entity.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  entity.LoginResponse:
+    properties:
+      expire_at:
+        type: string
+      token:
+        type: string
+    type: object
+  entity.ResponseError:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  model.UploadedFile:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      metadata:
+        type: string
+      path:
+        type: string
+    type: object
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Fiber Swagger Example API
+  version: "2.0"
+paths:
+  /api/v1/auth:
+    post:
+      consumes:
+      - application/json
+      operationId: login
+      parameters:
+      - description: json body
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entity.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ResponseError'
+      summary: log in
+      tags:
+      - Authentication
+  /api/v1/auth/register:
+    post:
+      consumes:
+      - application/json
+      operationId: register-new-user
+      parameters:
+      - description: json body
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entity.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.CreateUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ResponseError'
+      summary: register new user
+      tags:
+      - Authentication
+  /api/v1/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      operationId: upload-an-image
+      parameters:
+      - description: File to upload
+        in: formData
+        name: data
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.UploadedFile'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ResponseError'
+      security:
+      - BearerAuth: []
+      summary: upload an image
+      tags:
+      - Uploader
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

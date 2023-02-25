@@ -8,7 +8,6 @@ import (
 
 type UserFilter struct {
 	Username string
-	Id       int64
 }
 
 type AuthRepository interface {
@@ -36,10 +35,10 @@ func (u *AuthRepositoryImpl) FindFirstUser(filter UserFilter) (*model.User, erro
 	if filter.Username != "" {
 		query = query.Where("username = ?", filter.Username)
 	}
-	if filter.Id != 0 {
-		query = query.Where("id = ?", filter.Id)
+
+	if err := query.First(&user).Error; err != nil {
+		return nil, err
 	}
 
-	err := query.First(&user).Error
-	return &user, err
+	return &user, nil
 }

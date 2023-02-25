@@ -32,6 +32,7 @@ func GetTestDB() (*gorm.DB, func()) {
 	if url == "" {
 		panic("no test db connection string")
 	}
+	fmt.Println(url)
 
 	db, err := sql.Open("postgres", url)
 	if err != nil {
@@ -41,6 +42,7 @@ func GetTestDB() (*gorm.DB, func()) {
 	databaseName := fmt.Sprintf("test_%v", time.Now().Nanosecond())
 	_, err = db.Exec(fmt.Sprintf("CREATE DATABASE %s;", databaseName))
 	if err != nil {
+		fmt.Println(err)
 		log.Fatal("can not create test database")
 	}
 

@@ -6,17 +6,20 @@ services:
     ports:
       - "${DOCKER_DB_PORT}:5432"
     environment:
-      POSTGRES_PASSWORD: "db.user"
-      POSTGRES_USER: "db.password"
+      POSTGRES_PASSWORD: "dbPassword"
+      POSTGRES_USER: "dbUser"
     volumes:
-      - ./database/migration/database_init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ../postgres:/var/lib/postgresql/data
+      - ./database/initsql/database_init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
   redis:
     container_name: application-redis
     image: redis
+    command: >
+      --requirepass redisPassword
     environment:
-      REDIS_PASSWORD: "redis.password"
+      REDIS_PASSWORD: redisPassword
+    ports:
+      - "${DOCKER_REDIS_PORT}:6379"
   app:
     container_name: application-server
     image: golang:1.20-alpine

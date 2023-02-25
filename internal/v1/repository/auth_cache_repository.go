@@ -26,7 +26,8 @@ func NewAuthCacheRepository(redis *redis.Client) AuthCacheRepository {
 }
 
 func (u *AuthCacheRepositoryImpl) CacheAuthSession(userId int64, session *model.Session) error {
-	return u.redis.HSet(RedisAuthTokenKey, fmt.Sprint(userId), session).Err()
+	data, _ := json.Marshal(session)
+	return u.redis.HSet(RedisAuthTokenKey, fmt.Sprint(userId), string(data)).Err()
 }
 
 func (u *AuthCacheRepositoryImpl) GetAuthSessionFromCache(userId int64) (*model.Session, error) {

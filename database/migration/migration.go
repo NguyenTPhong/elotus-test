@@ -12,5 +12,4 @@ func CreateTable(db *gorm.DB) {
 
 func DropTable(db *gorm.DB) {
 	db.Migrator().DropTable(&model.User{})
-
 }
