@@ -168,8 +168,8 @@ func (u *authUseCase) ValidateToken(tokenString string) (session *model.Session,
 	}
 
 	// Verify that the token is valid
-	if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		global.Logger.Error("token is valid", zap.Any("claims", token.Claims))
+	if _, ok := token.Claims.(jwt.MapClaims); !ok || !token.Valid {
+		global.Logger.Error("token is invalid", zap.Any("claims", token.Claims))
 		return nil, fmt.Errorf(_const.Unauthorized)
 	}
 
@@ -185,7 +185,7 @@ func (u *authUseCase) ValidateToken(tokenString string) (session *model.Session,
 	claims := token.Claims.(jwt.MapClaims)
 	session = &model.Session{}
 	session.Username = claims["username"].(string)
-	session.Id = claims["id"].(int64)
+	session.Id = int64(claims["id"].(float64))
 	session.ExpiredAt, _ = time.Parse(time.RFC3339, claims["expired_at"].(string))
 	session.LoggedInAt, _ = time.Parse(time.RFC3339, claims["logged_in_at"].(string))
 

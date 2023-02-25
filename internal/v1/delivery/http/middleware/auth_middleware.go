@@ -17,7 +17,7 @@ func NewAuthMiddleware(authUseCase usecase.AuthUseCase) *AuthMiddleware {
 }
 
 func (c *AuthMiddleware) Authentication(ctx *fiber.Ctx) error {
-	headers := ctx.GetRespHeaders()
+	headers := ctx.GetReqHeaders()
 	token := headers["Authorization"]
 	if token == "" {
 		return ctx.Status(fiber.StatusUnauthorized).JSON(entity.ResponseError{
