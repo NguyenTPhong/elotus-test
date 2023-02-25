@@ -47,17 +47,7 @@ func (u *UploadController) UploadFile(ctx *fiber.Ctx) error {
 		})
 	}
 
-	file, err := fileHeaders[0].Open()
-	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(entity.ResponseError{
-			Code:    fiber.StatusBadRequest,
-			Message: err.Error(),
-		})
-	}
-
-	defer file.Close()
-
-	res, err := u.uploadUseCase.UploadFile(ctx.Context(), file)
+	res, err := u.uploadUseCase.UploadFile(ctx.Context(), fileHeaders[0])
 	if err != nil {
 		errorCode := fiber.StatusInternalServerError
 		if code, ok := _const.ErrorCode[err.Error()]; ok {
