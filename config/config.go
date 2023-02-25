@@ -11,7 +11,7 @@ var (
 	DBLogLevel    = GetInt64("DB_LOG_LEVEL", 4)                                                                                            // db log level
 	JWTKey        = GetString("JWT_KEY", "development-key")
 	TokenLifeTime = GetInt64("TOKEN_LIFE_TIME", 60)              // jwt token life time
-	StoragePath   = GetString("STORAGE_PATH", "/upload")         // upload path
+	StoragePath   = GetString("STORAGE_PATH", "./upload")        // upload path
 	RedisHost     = GetString("REDIS_HOST", "redis:6379")        // redis host, include port
 	RedisPassword = GetString("REDIS_PASSWORD", "redisPassword") // redis pw
 	LogLevel      = GetInt64("LOG_LEVEL", -1)

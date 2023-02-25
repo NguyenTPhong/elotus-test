@@ -11,4 +11,13 @@
 3. [Maximum Length of Repeated Subarray](/algs/sum-of-distance-in-tree/main.go)
 
 ## Hackathon
-... processing
+to run this project, please follow this steps:
+1. install docker and docker-compose
+2. run `docker-compose --env-file ./.env up` in root directory
+
+note: please check `.env` file to change port and database config to your own
+
+## Test
+to run test, please follow this steps:
+1. Access `http://127.0.0.1:{port}/swagger/index.html` to see documentation and test api (see swagger for more information)
+2. or endpoints that require authentication, please add `Authorization:Bearer {token}` in header (using swagger document for detail)

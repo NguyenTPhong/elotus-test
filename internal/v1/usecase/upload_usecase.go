@@ -40,7 +40,7 @@ func (u *UploadUseCaseImpl) UploadFile(ctx context.Context, fileHeader *multipar
 	defer file.Close()
 
 	// check file type
-	if util.IsImage(fileHeader) {
+	if !util.IsImage(fileHeader) {
 		return nil, fmt.Errorf(_const.InvalidFileType)
 	}
 
@@ -50,7 +50,7 @@ func (u *UploadUseCaseImpl) UploadFile(ctx context.Context, fileHeader *multipar
 	}
 
 	// Create temporary file in /tmp directory
-	fileName := time.Now().String() + fileHeader.Filename
+	fileName := time.Now().Format(time.DateTime) + "." + fileHeader.Filename
 	tempFile, err := ioutil.TempFile(config.StoragePath, fileName)
 	if err != nil {
 		global.Logger.Error("create temp file error", zap.Error(err))
